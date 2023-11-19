@@ -24,7 +24,22 @@ public class TrybankLib
     // 1. Construa a funcionalidade de cadastrar novas contas
     public void RegisterAccount(int number, int agency, int pass)
     {
-        throw new NotImplementedException();
+        String newNumberAgencyConcat = number.ToString() + agency.ToString();
+
+        for (int i = 0; i < Bank.Length; i += 1) {
+            String registeredNumberAgencyConcat = Bank[i, 0].ToString() + Bank[i, 1].ToString();
+    
+            if (registeredNumberAgencyConcat == newNumberAgencyConcat) {
+                throw new ArgumentException("A conta já está sendo usada!");
+            } else if (Bank[i, 0] == 0) {
+                Bank[i, 0] = number;
+                Bank[i, 1] = agency;
+                Bank[i, 2] = pass;
+                Bank[i, 3] = 0;
+                registeredAccounts += 1;
+                break;
+            }
+        } 
     }
 
     // 2. Construa a funcionalidade de fazer Login
