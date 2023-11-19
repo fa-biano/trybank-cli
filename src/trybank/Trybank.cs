@@ -26,12 +26,16 @@ public class TrybankLib
     {
         String newNumberAgencyConcat = number.ToString() + agency.ToString();
 
-        for (int i = 0; i < Bank.Length; i += 1) {
+        for (int i = 0; i < Bank.Length; i += 1)
+        {
             String registeredNumberAgencyConcat = Bank[i, 0].ToString() + Bank[i, 1].ToString();
-    
-            if (registeredNumberAgencyConcat == newNumberAgencyConcat) {
+
+            if (registeredNumberAgencyConcat == newNumberAgencyConcat)
+            {
                 throw new ArgumentException("A conta já está sendo usada!");
-            } else if (Bank[i, 0] == 0) {
+            }
+            else if (Bank[i, 0] == 0)
+            {
                 Bank[i, 0] = number;
                 Bank[i, 1] = agency;
                 Bank[i, 2] = pass;
@@ -39,13 +43,33 @@ public class TrybankLib
                 registeredAccounts += 1;
                 break;
             }
-        } 
+        }
     }
 
     // 2. Construa a funcionalidade de fazer Login
     public void Login(int number, int agency, int pass)
     {
-        throw new NotImplementedException();
+        if (Logged) throw new AccessViolationException("Usuário já está logado");
+        String loginNumberAgencyConcat = number.ToString() + agency.ToString();
+
+        for (int i = 0; i < Bank.Length; i += 1)
+        {
+            String registeredNumberAgencyConcat = Bank[i, 0].ToString() + Bank[i, 1].ToString();
+            int registeredPass = Bank[i, 2];
+
+            if (registeredNumberAgencyConcat == loginNumberAgencyConcat && pass == registeredPass)
+            {
+                Logged = true;
+                loggedUser = i;
+                break;
+            }
+            else if (registeredNumberAgencyConcat == loginNumberAgencyConcat && pass != registeredPass)
+            {
+                throw new ArgumentException("Senha incorreta");
+            }
+            else if (Bank[i, 0] == 0) throw new ArgumentException("Agência + Conta não encontrada");
+        }
+
     }
 
     // 3. Construa a funcionalidade de fazer Logout
@@ -57,7 +81,7 @@ public class TrybankLib
     // 4. Construa a funcionalidade de checar o saldo
     public int CheckBalance()
     {
-        throw new NotImplementedException();   
+        throw new NotImplementedException();
     }
 
     // 5. Construa a funcionalidade de depositar dinheiro
@@ -78,5 +102,5 @@ public class TrybankLib
         throw new NotImplementedException();
     }
 
-   
+
 }
